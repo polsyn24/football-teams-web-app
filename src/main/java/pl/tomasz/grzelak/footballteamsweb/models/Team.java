@@ -1,8 +1,13 @@
 package pl.tomasz.grzelak.footballteamsweb.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import org.springframework.web.bind.annotation.CrossOrigin;
+
 import javax.persistence.*;
 import java.util.List;
 
+@CrossOrigin
 @Entity
 @Table(name="team")
 public class Team {
@@ -16,17 +21,22 @@ public class Team {
     private String country;
 
     @ManyToOne
+    @JsonBackReference
     @JoinColumn(name = "league_id")
     private League league;
 
-    public Team() {
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "team")
+    @JsonManagedReference
+    private List<Footballer> footballers;
 
+    public Team() {
     }
 
-    public Team(String clubName, String country, League league) {
+    public Team(String clubName, String country, League league, List<Footballer> footballers) {
         this.clubName = clubName;
         this.country = country;
         this.league = league;
+        this.footballers = footballers;
     }
 
     public long getId() {
@@ -59,5 +69,13 @@ public class Team {
 
     public void setLeague(League league) {
         this.league = league;
+    }
+
+    public List<Footballer> getFootballers() {
+        return footballers;
+    }
+
+    public void setFootballers(List<Footballer> footballers) {
+        this.footballers = footballers;
     }
 }

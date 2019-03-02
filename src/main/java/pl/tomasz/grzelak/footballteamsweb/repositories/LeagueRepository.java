@@ -6,7 +6,7 @@ import pl.tomasz.grzelak.footballteamsweb.models.League;
 
 @Repository
 public interface LeagueRepository extends JpaRepository<League, Long> {
-    League   findByCountry(String country);
+    League findByCountry(String country);
     League findByLeagueName(String leagueName);
     void deleteLeagueByCountry(String country);
 }
